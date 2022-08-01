@@ -40,7 +40,6 @@ Plug 'plasticboy/vim-markdown'
 Plug 'previm/previm'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'terryma/vim-expand-region'
-Plugin 'morhetz/gruvbox'
 
 call plug#end()
 
@@ -77,6 +76,8 @@ let g:vim_markdown_folding_disabled = 1
 let g:previm_enable_realtime = 1
 let g:previm_open_cmd = 'open -a Google\ Chrome'
 
+colorscheme gruvbox
+
 set background=dark
 "文字コードをUFT-8に設定
 set fenc=utf-8
@@ -106,8 +107,6 @@ set virtualedit=onemore
 set smartindent
 " ステータスラインを常に表示
 set laststatus=2
-" カラースキームを設定（gruvbox）
-autocmd vimenter * ++nested colorscheme gruvbox
 
 let g:javascript_plugin_jsdoc = 1
 highlight link Delimiter TexSection
@@ -240,4 +239,3 @@ function! s:check_back_space() abort
 endfunction
 
 let g:coc_snippet_next = '<C-k>'
-
