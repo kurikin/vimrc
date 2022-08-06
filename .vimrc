@@ -239,3 +239,6 @@ function! s:check_back_space() abort
 endfunction
 
 let g:coc_snippet_next = '<C-k>'
+
+" Disable split window documentation by vim-go plugin
+let g:go_doc_keywordprg_enabled = 0
