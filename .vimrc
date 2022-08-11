@@ -21,7 +21,7 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim', {'branch': 'release', 'tag': 'v0.0.81'}
 Plug 'lervag/vimtex'
 Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh \| UpdateRemotePlugins' }
 Plug 'pangloss/vim-javascript'
@@ -40,6 +40,7 @@ Plug 'plasticboy/vim-markdown'
 Plug 'previm/previm'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'terryma/vim-expand-region'
+" Plug 'akinsho/toggleterm.nvim', {'tag' : 'v2.1.0'}
 
 call plug#end()
 
@@ -183,6 +184,9 @@ set shortmess+=c
 " Ctrl+nでファイルツリーを表示/非表示する (Fern.vim)
 nnoremap <C-n> :Fern . -reveal=% -drawer -toggle -width=40<CR>
 
+" Terminal のインサートモードを抜けるコマンドを変更
+:tnoremap <C-[> <C-\><C-n>
+
 packadd termdebug 
 
 hi Normal ctermbg=NONE
@@ -217,6 +221,9 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gk <Plug>(coc-float-jump)
 nmap <silent> <C-\> <Plug>(coc-rename)
 
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#_select_confirm() 
+            \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
 " vim-fmt でのインデントをスペース4つ分に変更
 au FileType go setlocal sw=4 ts=4 sts=4 noet
 
@@ -226,19 +233,10 @@ xmap <leader>x  <Plug>(coc-convert-snippet)
 " Add missing imports on save when editing go files
 autocmd BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')
 
-" <C-k> でスニペットを展開
-inoremap <silent><expr> <C-k>
-      \ pumvisible() ? coc#_select_confirm() :
-      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-      \ <SID>check_back_space() ? "\<C-k>" :
-      \ coc#refresh()
-
 function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
-
-let g:coc_snippet_next = '<C-k>'
 
 " Disable split window documentation by vim-go plugin
 let g:go_doc_keywordprg_enabled = 0
