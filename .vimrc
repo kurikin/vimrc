@@ -25,22 +25,21 @@ Plug 'neoclide/coc.nvim', {'branch': 'release', 'tag': 'v0.0.81'}
 Plug 'lervag/vimtex'
 Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh \| UpdateRemotePlugins' }
 Plug 'pangloss/vim-javascript'
-Plug 'cohama/lexima.vim'
-Plug 'tpope/vim-surround'
 Plug 'mattn/emmet-vim'
 Plug 'lambdalisue/fern.vim'
 Plug 'antoinemadec/FixCursorHold.nvim'
 Plug 'jackguo380/vim-lsp-cxx-highlight'
 Plug 'OmniSharp/omnisharp-vim'
 Plug 'mattn/vim-sonictemplate'
-Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-commentary'
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
 Plug 'previm/previm'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'tpope/vim-repeat'
 Plug 'terryma/vim-expand-region'
-" Plug 'akinsho/toggleterm.nvim', {'tag' : 'v2.1.0'}
+Plug 'cohama/lexima.vim'
+Plug 'tpope/vim-surround'
 
 call plug#end()
 
@@ -153,6 +152,7 @@ hi PmenuSel ctermbg=4
 
 " set clipboard+=unnamed
 nmap <Esc><Esc> :nohlsearch<CR><Esc>
+nmap <C-[><C-[> :nohlsearch<CR><Esc>
 
 let g:gruvbox_contrast_dark='medium'
 let g:gruvbox_invert_selection=0
@@ -181,8 +181,8 @@ set updatetime=300
 " don't give |ins-completion-menu| messages.
 set shortmess+=c
 
-" Ctrl+nでファイルツリーを表示/非表示する (Fern.vim)
-nnoremap <C-n> :Fern . -reveal=% -drawer -toggle -width=40<CR>
+" ドットファイルをデフォルトで表示
+let g:fern#default_hidden = 1
 
 " Terminal のインサートモードを抜けるコマンドを変更
 :tnoremap <C-[> <C-\><C-n>
@@ -206,6 +206,9 @@ let g:airline#extensions#tabline#show_close_button = 0
 " Use K to show documentation in preview window.
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#_select_confirm() 
+            \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
@@ -219,16 +222,13 @@ endfunction
 " Coc.nvim mapping
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gk <Plug>(coc-float-jump)
-nmap <silent> <C-\> <Plug>(coc-rename)
-
-inoremap <silent><expr> <CR> coc#pum#visible() ? coc#_select_confirm() 
-            \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+nmap <C-n> <Plug>(coc-rename)
 
 " vim-fmt でのインデントをスペース4つ分に変更
 au FileType go setlocal sw=4 ts=4 sts=4 noet
 
 " Use <leader>x for convert visual selected code to snippet
-xmap <leader>x  <Plug>(coc-convert-snippet)
+xmap <leader>x <Plug>(coc-convert-snippet)
 
 " Add missing imports on save when editing go files
 autocmd BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')
@@ -240,3 +240,7 @@ endfunction
 
 " Disable split window documentation by vim-go plugin
 let g:go_doc_keywordprg_enabled = 0
+
+let g:airline#extensions#term#enabled = 0
+let g:airline_inactive_collapse = 0
+let g:airline_inactive_alt_sep = 0
