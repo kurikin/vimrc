@@ -21,7 +21,7 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'neoclide/coc.nvim', {'branch': 'release', 'tag': 'v0.0.81'}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'lervag/vimtex'
 Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh \| UpdateRemotePlugins' }
 Plug 'pangloss/vim-javascript'
@@ -38,7 +38,7 @@ Plug 'previm/previm'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'tpope/vim-repeat'
 Plug 'terryma/vim-expand-region'
-Plug 'cohama/lexima.vim'
+" Plug 'cohama/lexima.vim'
 Plug 'tpope/vim-surround'
 
 call plug#end()
@@ -63,8 +63,6 @@ let g:vimtex_view_general_viewer = '/Applications/Skim.app/Contents/SharedSuppor
 let g:vimtex_view_general_options = '@line @pdf @tex'
 nnoremap <silent> ts :tabe<CR> 
 nnoremap <silent> tc :tabclose<CR> 
-nnoremap <silent> tp :bprev<CR>
-nnoremap <silent> tn :bnext<CR>
 nnoremap <C-w>s <C-w>v
 nnoremap j gj
 nnoremap k gk
@@ -205,9 +203,7 @@ let g:airline#extensions#tabline#show_close_button = 0
 " --- Coc.nvim settings ---
 " Use K to show documentation in preview window.
 nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-inoremap <silent><expr> <CR> coc#pum#visible() ? coc#_select_confirm() 
-            \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
 
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
@@ -244,3 +240,5 @@ let g:go_doc_keywordprg_enabled = 0
 let g:airline#extensions#term#enabled = 0
 let g:airline_inactive_collapse = 0
 let g:airline_inactive_alt_sep = 0
+
+nnoremap <C-m> :Fern . -reveal=% -drawer -toggle -width=40<CR>
