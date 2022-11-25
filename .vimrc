@@ -35,11 +35,10 @@ Plug 'tpope/vim-commentary'
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
 Plug 'previm/previm'
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'tpope/vim-repeat'
 Plug 'terryma/vim-expand-region'
-" Plug 'cohama/lexima.vim'
 Plug 'tpope/vim-surround'
+Plug 'cohama/lexima.vim'
 
 call plug#end()
 
@@ -203,7 +202,12 @@ let g:airline#extensions#tabline#show_close_button = 0
 " --- Coc.nvim settings ---
 " Use K to show documentation in preview window.
 nnoremap <silent> K :call <SID>show_documentation()<CR>
-inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
+inoremap <silent><expr> <c-CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
+" Use <C-k> for jump to next placeholder.
+let g:coc_snippet_next = '<c-k>'
+
+" Use <C-j> for jump to previous placeholder.
+let g:coc_snippet_prev = '<c-j>'
 
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
